@@ -76,6 +76,9 @@ const createWindow = () => {
         return { action: 'deny' };
     });
 
+    // Uncomment to open debugging tools in development mode
+    // win.webContents.openDevTools();
+
     win.on('close', () => {
         saveWindowState(win.getBounds());
     });
@@ -87,7 +90,7 @@ app.whenReady().then(() => {
     session.defaultSession.setPermissionRequestHandler((_, permission, callback, details) => {
         const origin = details?.requestingUrl || '';
         const isLinear = origin.startsWith('https://linear.app');
-        if (permission === 'notifications' && isLinear) {
+        if (isLinear && ['notifications', 'clipboard-read', 'clipboard-write', 'clipboard-sanitized-write'].includes(permission)) {
             return callback(true);
         }
         return callback(false);
