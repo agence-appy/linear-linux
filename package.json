@@ -1,23 +1,23 @@
 {
   "name": "linear-linux",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "description": "Linux support for linear.app",
   "main": "index.js",
   "scripts": {
-    "start": "CHROME_DEVEL_SANDBOX=${CHROME_DEVEL_SANDBOX:-/opt/linear-linux/squashfs-root/chrome-sandbox} ELECTRON_DISABLE_SANDBOX=1 npx electron index.js",
-    "build": "npx electron-builder --linux AppImage --x64 --arm64"
+    "start": "electron index.js",
+    "build": "npx electron-builder --linux AppImage deb --x64"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kleo-dev/linear-linux.git"
+    "url": "git+https://github.com/agence-appy/linear-linux.git"
   },
   "keywords": [],
   "author": "Selimaj Dev",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kleo-dev/linear-linux/issues"
+    "url": "https://github.com/agence-appy/linear-linux/issues"
   },
-  "homepage": "https://github.com/kleo-dev/linear-linux#readme",
+  "homepage": "https://github.com/agence-appy/linear-linux#readme",
   "build": {
     "appId": "app.linear.linux",
     "productName": "Linear",
@@ -28,10 +28,17 @@
     ],
     "linux": {
       "target": [
-        "AppImage"
+        "AppImage",
+        "deb"
       ],
       "category": "Utility",
-      "icon": "assets/linear-app-icon.png",
+      "icon": "build/icons",
+      "desktop": {
+        "StartupWMClass": "linear-linux"
+      },
+      "maintainer": "Agence Appy",
+      "synopsis": "Linear Linux desktop application",
+      "description": "A maintained fork of Linear Linux",
       "artifactName": "linear-linux-${version}-${arch}.${ext}"
     },
     "extraResources": [

@@ -10,23 +10,31 @@ A linux port of <a href="https://linear.app/">linear.app</a>
 <img alt="GH-rel ver" src="https://img.shields.io/github/v/release/kleo-dev/linear-linux?color=%23f5304c">
 </p>
 
+# Linear Linux
+
+A maintained fork of Linear Linux. (`selimaj-dev/linear-linux`)
+
 # Install
 Requires `sudo` (for sandbox helper, desktop entry, and icons).
 
+Download the latest `.deb` package from the Releases page.
+
 ```bash
-git clone git@github.com:selimaj-dev/linear-linux.git
-cd linear-linux
-./installer.sh
+sudo apt install ./linear-linux-x.y.z-amd64.deb
 ```
 
-The installer:
-- Downloads the AppImage, extracts it under `/opt/linear-linux-<version>`, and wires up the `chrome-sandbox` helper correctly.
-- Installs a wrapper at `/usr/local/bin/linear`, a desktop entry, and the Linear icon into the system icon cache.
-- Accepts overrides: `VERSION=0.2.5 APPIMAGE_URL=<url> INSTALL_ROOT=/opt ./installer.sh`
+Remove:
+
+```bash
+sudo apt remove linear-linux
+```
 
 Development:
+- `git clone git@github.com:selimaj-dev/linear-linux.git`
+- `cd linear-linux`
+- `npm install`
 - `npm start` launches Electron with sandbox disabled for local runs (packaged builds use the proper setuid helper).
 - `npm run build` produces an AppImage that bundles the Linear brand assets for the desktop icon.
 
 # Having an issue?
-Describe your issue [here](https://github.com/selimaj-dev/linear-linux/issues)
+Describe your issue [here](https://github.com/agence-appy/linear-linux/issues)
