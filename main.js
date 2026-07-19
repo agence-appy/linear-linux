@@ -4,6 +4,15 @@ const path = require('path');
 
 let stateFilePath;
 
+const LINEAR_URL = "https://linear.app";
+
+const allowedPermissions = new Set([
+    'notifications',
+    'clipboard-read',
+    'clipboard-write',
+    'clipboard-sanitized-write'
+]);
+
 const loadWindowState = () => {
     if (!stateFilePath) return {};
     try {
@@ -56,7 +65,9 @@ const createWindow = () => {
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
+            preload: path.join(__dirname, 'preload.js'),
         },
+        partition: 'persist:linear'
     };
 
     if (Number.isFinite(state.x) && Number.isFinite(state.y)) {
@@ -66,7 +77,7 @@ const createWindow = () => {
 
     const win = new BrowserWindow(windowOptions);
     win.setMenu(null);
-    win.loadURL('https://linear.app/login');
+    win.loadURL(LINEAR_URL);
 
     const authPatterns = ['/oauth', '/auth', '/login', '/signin', '/sso', '/saml', '/callback'];
     win.webContents.setWindowOpenHandler(({ url }) => {
@@ -77,33 +88,33 @@ const createWindow = () => {
     });
 
     // Uncomment to open debugging tools in development mode
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
 
     win.on('close', () => {
         saveWindowState(win.getBounds());
     });
 };
 
+app.commandLine.appendSwitch("ozone-platform-hint", "auto");
+
 app.whenReady().then(() => {
     stateFilePath = path.join(app.getPath('userData'), 'window-state.json');
 
     session.defaultSession.setPermissionRequestHandler((_, permission, callback, details) => {
         const origin = details?.requestingUrl || '';
-        const isLinear = origin.startsWith('https://linear.app');
-        if (isLinear && ['notifications', 'clipboard-read', 'clipboard-write', 'clipboard-sanitized-write'].includes(permission)) {
-            return callback(true);
-        }
-        return callback(false);
+        const isLinear = origin.startsWith(LINEAR_URL);
+        return callback(isLinear && allowedPermissions.has(permission));
     });
 
     createWindow();
 
-    app.on('browser-window-focus', () => {
-        globalShortcut.register('CommandOrControl+Shift+N', createWindow);
-    });
+    globalShortcut.register(
+        "CommandOrControl+Shift+N",
+        createWindow
+    );
 
-    app.on('browser-window-blur', () => {
-        globalShortcut.unregister('CommandOrControl+Shift+N');
+    app.on("will-quit", () => {
+        globalShortcut.unregisterAll();
     });
 
     app.on('activate', () => {

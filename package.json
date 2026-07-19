@@ -1,10 +1,10 @@
 {
   "name": "linear-linux",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Linux support for linear.app",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "start": "electron index.js",
+    "start": "electron main.js",
     "build": "npx electron-builder --linux AppImage deb --x64"
   },
   "repository": {
@@ -22,7 +22,7 @@
     "appId": "app.linear.linux",
     "productName": "Linear",
     "files": [
-      "index.js",
+      "main.js",
       "package.json",
       "assets/**/*"
     ],
@@ -34,7 +34,9 @@
       "category": "Utility",
       "icon": "build/icons",
       "desktop": {
-        "StartupWMClass": "linear-linux"
+        "entry": {
+          "StartupWMClass": "linear-linux"
+        }
       },
       "maintainer": "Agence Appy",
       "synopsis": "Linear Linux desktop application",
@@ -49,7 +51,7 @@
     ]
   },
   "devDependencies": {
-    "electron": "33.2.1",
-    "electron-builder": "^25.1.8"
+    "electron": "^43.1.1",
+    "electron-builder": "^26.15.3"
   }
 }
