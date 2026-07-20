@@ -30,7 +30,7 @@ sudo apt remove linear-linux
 ```
 
 Development:
-- `git clone git@github.com:selimaj-dev/linear-linux.git`
+- `git clone git@github.com:agence-appy/linear-linux.git`
 - `cd linear-linux`
 - `npm install`
 - `npm start` launches Electron with sandbox disabled for local runs (packaged builds use the proper setuid helper).

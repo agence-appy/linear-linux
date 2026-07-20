@@ -88,7 +88,7 @@ const createWindow = () => {
     });
 
     // Uncomment to open debugging tools in development mode
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 
     win.on('close', () => {
         saveWindowState(win.getBounds());
