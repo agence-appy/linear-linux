@@ -1,6 +1,6 @@
 {
   "name": "linear-linux",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Linux support for linear.app",
   "main": "main.js",
   "scripts": {
@@ -23,6 +23,8 @@
     "productName": "Linear",
     "files": [
       "main.js",
+      "preload.js",
+      "tabbar/**/*",
       "package.json",
       "assets/**/*"
     ],
